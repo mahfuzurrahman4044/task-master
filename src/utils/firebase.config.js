@@ -2,12 +2,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_apiKey,
-  authDomain: import.meta.env.VITE_authDomain,
-  projectId: import.meta.env.VITE_projectId,
-  storageBucket: import.meta.env.VITE_storageBucket,
-  messagingSenderId: import.meta.env.VITE_messagingSenderId,
-  appId: import.meta.env.VITE_appId,
+  apiKey: "AIzaSyDeqrRq2IsDN6wm25GJDKZxBxNirTbLjjU",
+  authDomain: "task-master-3e3c9.firebaseapp.com",
+  projectId: "task-master-3e3c9",
+  storageBucket: "task-master-3e3c9.appspot.com",
+  messagingSenderId: "972156469702",
+  appId: "1:972156469702:web:2962a0a25e7dbd078f32c7",
+  measurementId: "G-54SQSGXY3S"
 };
 
 const app = initializeApp(firebaseConfig);

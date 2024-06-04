@@ -1,7 +1,18 @@
 import { Menu, Transition } from '@headlessui/react';
+import { getAuth, signOut } from 'firebase/auth';
 import { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
+import { logOut } from '../../redux/features/user/userSlice';
 
 export default function MenuDropdown({ children }) {
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    const auth = getAuth();
+    signOut(auth)
+    dispatch(logOut())
+  }
+
   return (
     <Menu as="div" className="relative inline-block text-left bg-white z-[999]">
       <div>
@@ -21,9 +32,8 @@ export default function MenuDropdown({ children }) {
             <Menu.Item>
               {({ active }) => (
                 <button
-                  className={`${
-                    active ? 'bg-primary text-white' : 'text-gray-900'
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  className={`${active ? 'bg-primary text-white' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
                   Profile
                 </button>
@@ -32,9 +42,8 @@ export default function MenuDropdown({ children }) {
             <Menu.Item>
               {({ active }) => (
                 <button
-                  className={`${
-                    active ? 'bg-primary text-white' : 'text-gray-900'
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  className={`${active ? 'bg-primary text-white' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
                   Settings
                 </button>
@@ -42,12 +51,11 @@ export default function MenuDropdown({ children }) {
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <button
-                  className={`${
-                    active ? 'bg-primary text-white' : 'text-gray-900'
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                <button onClick={handleLogOut}
+                  className={`${active ? 'bg-primary text-white' : 'text-gray-900'
+                    } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                 >
-                  Logout
+                  Log out
                 </button>
               )}
             </Menu.Item>

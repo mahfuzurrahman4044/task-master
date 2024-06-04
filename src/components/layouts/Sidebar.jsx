@@ -7,13 +7,13 @@ import {
 } from '@heroicons/react/24/solid';
 
 import logo from '../../assets/image/logo.png';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
     <div className="h-screen sticky top-0 border-r-2 border-secondary/20">
       <div className="flex flex-col items-center gap-5 h-full py-5">
-        <img src={logo} alt="logo" />
+        <Link to="/"><img src={logo} alt="logo" /></Link>
         <NavLink
           to="/"
           className={({ isActive }) =>

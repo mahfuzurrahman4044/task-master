@@ -1,29 +1,39 @@
 import {
   CheckIcon,
-  DocumentMagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import TaskDetailsModal from './TaskDetailsModal';
-import { updateStatus, userTasks } from '../../redux/features/tasks/tasksSlice';
+import { useGetTaskByNameQuery, useGetUpdatePostMutation } from '../../redux/features/taskApi/taskApi';
 
 const MyTasks = () => {
-  const { tasks, userSpecificTasks } = useSelector((state) => state.tasksSlice);
   const { name } = useSelector((state) => state.userSlice);
+  // console.log( name)
+
+  const { data: userSpecificTasks, isLoading, error } = useGetTaskByNameQuery(name, {
+    skip: !name
+  });
+
   const [isOpen, setIsOpen] = useState(false);
   const [taskId, setTaskId] = useState(0);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(userTasks(name));
-  }, [dispatch, name, tasks]);
 
   const handleDetails = (id) => {
     setTaskId(id);
     setIsOpen(!isOpen);
   };
+
+  const [updateTask, { data }] = useGetUpdatePostMutation()
+
+  const handleUpdate = (id, status) => {
+    // console.log(id)
+    const options = {
+      id: id,
+      data: status
+    }
+
+    updateTask(options)
+  }
 
   return (
     <div>
@@ -38,15 +48,8 @@ const MyTasks = () => {
             <h1>{item.title}</h1>
             <div className="flex gap-3">
               <button
-                onClick={() => handleDetails(item.id)}
-                className="grid place-content-center"
-                title="Details"
-              >
-                <DocumentMagnifyingGlassIcon className="w-5 h-5 text-primary" />
-              </button>
-              <button
                 onClick={() =>
-                  dispatch(updateStatus({ id: item.id, status: 'done' }))
+                  handleUpdate(item._id, { status: 'done' })
                 }
                 className="grid place-content-center"
                 title="Done"

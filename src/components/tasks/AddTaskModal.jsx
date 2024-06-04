@@ -1,11 +1,13 @@
 import { useForm } from 'react-hook-form';
 import Modal from '../ui/Modal';
-import { useDispatch } from 'react-redux';
-import { addTask } from '../../redux/features/tasks/tasksSlice';
+import { useGetPostMutation } from '../../redux/features/taskApi/taskApi';
 
 const AddTaskModal = ({ isOpen, setIsOpen }) => {
   const { register, handleSubmit, reset } = useForm();
-  const dispatch = useDispatch();
+
+  const [addTask, { data, error }] = useGetPostMutation();
+  console.log(data)
+  console.log(error)
 
   const onCancel = () => {
     reset();
@@ -13,18 +15,19 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
   };
 
   const onSubmit = (data) => {
-    dispatch(addTask(data));
+    addTask({ ...data, status: "pending" });
     onCancel();
   };
 
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title="Programming Hero">
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} >
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col mb-5">
           <label htmlFor="title" className="mb-2">
             Title
           </label>
           <input
+            placeholder='title'
             className="w-full rounded-md"
             type="text"
             id="title"
@@ -36,6 +39,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             Description
           </label>
           <textarea
+            placeholder='description'
             className="w-full rounded-md"
             type="text"
             id="description"
@@ -86,11 +90,12 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             id="priority"
             {...register('priority')}
           >
+
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
             <option defaultValue value="high">
               High
             </option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
           </select>
         </div>
         <div className="flex gap-3 justify-end">
@@ -102,7 +107,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             Cancel
           </button>
           <button type="submit" className="btn btn-primary ">
-            submit
+            Submit
           </button>
         </div>
       </form>
