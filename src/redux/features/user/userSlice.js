@@ -17,7 +17,7 @@ export const createUser = createAsyncThunk(
     await updateProfile(auth.currentUser, {
       displayName: name
     })
-    console.log(data)
+    // console.log(data)
     return {
       email: data.user.email,
       name: data.user.displayName
@@ -29,7 +29,7 @@ export const loggedInUser = createAsyncThunk(
   async ({ email, password }) => {
     const auth = getAuth();
     const data = await signInWithEmailAndPassword(auth, email, password)
-    console.log(data)
+    // console.log(data)
     return
   },
 )
